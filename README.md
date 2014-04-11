@@ -1,3 +1,3 @@
-Empty Point Mass Physics
+Point Mass Physics
 ==============================
-empty version of point mass for class.
+Simple Point mass physics demo for JavaScript Bootcamp.
