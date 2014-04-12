@@ -1,4 +1,15 @@
 'use strict';
+/* jshint browser: true */
+
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
+
 document.addEventListener('DOMContentLoaded', function(){
   var point;
   var canvas = document.getElementById('canvas1');
@@ -52,14 +63,22 @@ document.addEventListener('DOMContentLoaded', function(){
     points.push(point);
   }
 
-  function drawScreen() {
+  var start = null;
+
+  function drawScreen(timestamp) {
+    var progress;
+    if (start === null) { start = timestamp; }
+    progress = timestamp - start;
     context.fillStyle = '#000';
     context.fillRect(0,0, canvas.width, canvas.height);
     for(var i = 0; i < points.length; i++) {
       points[i].drawPoint();
       points[i].updatePoint();
     }
+    // if (progress < 33) {
+      window.requestAnimFrame(drawScreen);
+    //}
   }
 
-  setInterval(drawScreen, 33);
+  window.requestAnimFrame(drawScreen);
 });
